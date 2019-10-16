@@ -1,6 +1,9 @@
 IMPORT util
 
-PUBLIC FUNCTION getTableRecords(tableName STRING) RETURNS util.JSONArray
+PUBLIC CONSTANT MAX_RECORDS = 500
+PUBLIC CONSTANT NO_OFFSET = 0
+
+PUBLIC FUNCTION getTableRecords(tableName STRING, recLimit INTEGER, recOffset INTEGER) RETURNS util.JSONArray
 
     DEFINE jsonArray    util.JSONArray
     DEFINE jsonObj      util.JSONObject
@@ -9,6 +12,7 @@ PUBLIC FUNCTION getTableRecords(tableName STRING) RETURNS util.JSONArray
     DEFINE lIndex       INTEGER = 0
     DEFINE lCount       INTEGER = 0
     DEFINE lMoreRecords BOOLEAN = TRUE
+    DEFINE lFetchOffset BOOLEAN = FALSE
 
     WHENEVER ANY ERROR CALL errorHandler
 
@@ -18,11 +22,23 @@ PUBLIC FUNCTION getTableRecords(tableName STRING) RETURNS util.JSONArray
     TRY
         LET sqlObj = base.SqlHandle.create()
         CALL sqlObj.prepare(lSQLSelect)
-        CALL sqlObj.open()
-
+        IF recOffset < 1 THEN 
+            #No offset
+            CALL sqlObj.open()
+        ELSE
+            CALL sqlObj.openScrollCursor()
+            LET lFetchOffset = TRUE
+        END IF
+        
         WHILE lMoreRecords
 
-            CALL sqlObj.fetch()
+            IF lFetchOffset THEN
+                CALL sqlObj.fetchAbsolute(recOffset)
+                LET recOffset = recOffset + 1
+            ELSE
+                CALL sqlObj.fetch()
+            END IF
+            
             IF SQLCA.sqlcode == NOTFOUND THEN
                 LET lMoreRecords = FALSE
             ELSE
@@ -32,15 +48,52 @@ PUBLIC FUNCTION getTableRecords(tableName STRING) RETURNS util.JSONArray
                 END FOR
                 LET lCount = lCount + 1
                 CALL jsonArray.put(lCount, jsonObj)
+                IF recLimit > 0 AND lCount >= recLimit THEN
+                    LET lMoreRecords = FALSE
+                END IF
             END IF
 
         END WHILE
+        CALL sqlObj.close()
 
     CATCH
         LET jsonArray = NULL
     END TRY
 
     RETURN jsonArray
+
+END FUNCTION
+
+PUBLIC FUNCTION getTableRecordCount(tableName STRING) RETURNS INTEGER
+
+    DEFINE lSQLSelect   STRING
+    DEFINE sqlObj       base.SqlHandle
+    DEFINE lCount       INTEGER = 0
+    DEFINE lIndex       INTEGER
+    DEFINE lColName     STRING = "rec_count"
+
+    WHENEVER ANY ERROR CALL errorHandler
+
+    LET lSQLSelect = SFMT("SELECT COUNT(*) AS %2 FROM %1", tableName, lColName)
+
+    TRY
+        LET sqlObj = base.SqlHandle.create()
+        CALL sqlObj.prepare(lSQLSelect)
+        CALL sqlObj.open()
+        CALL sqlObj.fetch()
+        FOR lIndex = 1 TO sqlObj.getResultCount()
+            IF sqlObj.getResultName(lIndex) == lColName THEN
+                LET lCount = sqlObj.getResultValue(lIndex)
+                EXIT FOR
+            END IF
+        END FOR
+        CALL sqlObj.close()
+
+    CATCH
+        LET lCount = 0
+    END TRY
+
+    RETURN lCount
 
 END FUNCTION
 

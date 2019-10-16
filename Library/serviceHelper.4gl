@@ -41,7 +41,7 @@ PUBLIC FUNCTION startService() RETURNS STRING
 
 END FUNCTION
 
-PUBLIC FUNCTION getAllRecordsFromTable(tableName STRING ATTRIBUTES(WSParam))
+PUBLIC FUNCTION getAllRecords(tableName STRING ATTRIBUTES(WSParam))
     ATTRIBUTES(WSGet,
                WSPath = "/table/{tableName}",
                WSDescription = 'Fetches all the data from the specified table',
@@ -50,7 +50,79 @@ PUBLIC FUNCTION getAllRecordsFromTable(tableName STRING ATTRIBUTES(WSParam))
 
     DEFINE jsonArray  util.JSONArray
 
-    LET jsonArray = sqlHelper.getTableRecords(tableName)
+    LET jsonArray = sqlHelper.getTableRecords(tableName, -1, -1)
+
+    IF jsonArray IS NULL THEN
+        CALL com.WebServiceEngine.SetRestError(500, NULL)
+    ELSE 
+        IF jsonArray.getLength() == 0 THEN
+            CALL com.WebServiceEngine.SetRestError(404, NULL)
+        END IF
+    END IF
+
+    RETURN jsonArray
+
+END FUNCTION
+
+PUBLIC FUNCTION getRecordCount(tableName STRING ATTRIBUTES(WSParam))
+    ATTRIBUTES(WSGet,
+               WSPath = "/table/{tableName}/count",
+               WSDescription = 'Fetches the record count from the specified table',
+               WSThrows = "404:Not Found")
+    RETURNS INTEGER
+
+    DEFINE lCount  INTEGER
+
+    LET lCount = sqlHelper.getTableRecordCount(tableName)
+
+    IF lCount IS NULL THEN
+        CALL com.WebServiceEngine.SetRestError(500, NULL)
+    ELSE 
+        IF lCount == 0 THEN
+            CALL com.WebServiceEngine.SetRestError(404, NULL)
+        END IF
+    END IF
+
+    RETURN lCount
+
+END FUNCTION
+
+PUBLIC FUNCTION getRecordsWithLimit(tableName STRING ATTRIBUTES(WSParam), 
+                                    recLimit INTEGER ATTRIBUTES(WSParam))
+    ATTRIBUTES(WSGet,
+               WSPath = "/table/{tableName}/limit/{recLimit}",
+               WSDescription = 'Fetches the reccords from the specified table up to the limit specified',
+               WSThrows = "404:Not Found")
+    RETURNS util.JSONArray ATTRIBUTES(WSMedia = "application/json")
+
+    DEFINE jsonArray  util.JSONArray
+
+    LET jsonArray = sqlHelper.getTableRecords(tableName, recLimit, -1)
+
+    IF jsonArray IS NULL THEN
+        CALL com.WebServiceEngine.SetRestError(500, NULL)
+    ELSE 
+        IF jsonArray.getLength() == 0 THEN
+            CALL com.WebServiceEngine.SetRestError(404, NULL)
+        END IF
+    END IF
+
+    RETURN jsonArray
+
+END FUNCTION
+
+PUBLIC FUNCTION getRecordsWithLimitOffset(tableName STRING ATTRIBUTES(WSParam), 
+                                          recLimit INTEGER ATTRIBUTES(WSParam),
+                                          recOffset INTEGER ATTRIBUTES(WSParam))
+    ATTRIBUTES(WSGet,
+               WSPath = "/table/{tableName}/limit/{recLimit}/offset/{recOffset}",
+               WSDescription = 'Fetches the reccords from the specified table up to the limit specified',
+               WSThrows = "404:Not Found")
+    RETURNS util.JSONArray ATTRIBUTES(WSMedia = "application/json")
+
+    DEFINE jsonArray  util.JSONArray
+
+    LET jsonArray = sqlHelper.getTableRecords(tableName, recLimit, recOffset)
 
     IF jsonArray IS NULL THEN
         CALL com.WebServiceEngine.SetRestError(500, NULL)
