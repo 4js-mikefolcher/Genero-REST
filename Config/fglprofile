@@ -1,0 +1,7 @@
+#officestore database
+dbi.database.officestore.driver = "dbmsqt"
+dbi.database.officestore.source = "../database/officestore.db"
+
+#custdemo database
+dbi.database.custdemo.driver = "dbmsqt"
+dbi.database.custdemo.source = "../database/custdemo.db"

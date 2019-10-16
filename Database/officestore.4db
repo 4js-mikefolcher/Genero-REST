@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='ASCII'?>
+<Schema id="{1afd5845-61b4-485b-980b-33e4c930d373}" version="4.0">
+  <ExtractionSettings last="SQLite">
+    <ExtractionOptions casens="LowerCase" cvmeth="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ignerr="true" systab="false" type="SQLite"/>
+  </ExtractionSettings>
+  <Table name="account" isView="false" status="U">
+    <Column fglLength="80" fglType="256" name="userid" notNull="true" order="1" status="U"/>
+    <Column fglLength="80" fglType="0" name="email" notNull="false" order="2" status="U"/>
+    <Column fglLength="80" fglType="256" name="firstname" notNull="true" order="3" status="U"/>
+    <Column fglLength="80" fglType="256" name="lastname" notNull="true" order="4" status="U"/>
+    <Column fglLength="2" fglType="0" name="acstatus" notNull="false" order="5" status="U"/>
+    <Column fglLength="80" fglType="0" name="addr1" notNull="false" order="6" status="U"/>
+    <Column fglLength="40" fglType="0" name="addr2" notNull="false" order="7" status="U"/>
+    <Column fglLength="80" fglType="0" name="city" notNull="false" order="8" status="U"/>
+    <Column fglLength="80" fglType="0" name="state" notNull="false" order="9" status="U"/>
+    <Column fglLength="20" fglType="0" name="zip" notNull="false" order="10" status="U"/>
+    <Column fglLength="3" fglType="0" name="country" notNull="false" order="11" status="U"/>
+    <Column fglLength="80" fglType="0" name="phone" notNull="false" order="12" status="U"/>
+    <Column fglLength="80" fglType="0" name="langpref" notNull="false" order="13" status="U"/>
+    <Column fglLength="10" fglType="0" name="favcategory" notNull="false" order="14" status="U"/>
+    <Column fglLength="4" fglType="2" name="mylistopt" notNull="false" order="15" status="U"/>
+    <Column fglLength="4" fglType="2" name="banneropt" notNull="false" order="16" status="U"/>
+    <Column fglLength="3" fglType="0" name="sourceapp" notNull="false" order="17" status="U"/>
+    <Index indexColumns="userid" indexConstraint="primaryKey" name="sqlite_autoindex_account_1" status="U"/>
+  </Table>
+  <Table name="category" isView="false" status="U">
+    <Column fglLength="10" fglType="256" name="catid" notNull="true" order="1" status="U"/>
+    <Column fglLength="2" fglType="1" name="catorder" notNull="false" order="2" status="U"/>
+    <Column fglLength="80" fglType="0" name="catname" notNull="false" order="3" status="U"/>
+    <Column fglLength="255" fglType="0" name="catdesc" notNull="false" order="4" status="U"/>
+    <Column fglLength="255" fglType="0" name="catpic" notNull="false" order="5" status="U"/>
+    <Index indexColumns="catid" indexConstraint="primaryKey" name="sqlite_autoindex_category_1" status="U"/>
+  </Table>
+  <Table name="country" isView="false" status="U">
+    <Column fglLength="3" fglType="256" name="code" notNull="true" order="1" status="U"/>
+    <Column fglLength="50" fglType="0" name="codedesc" notNull="false" order="2" status="U"/>
+    <Index indexColumns="code" indexConstraint="primaryKey" name="sqlite_autoindex_country_1" status="U"/>
+  </Table>
+  <Table name="inventory" isView="false" status="U">
+    <Column fglLength="10" fglType="256" name="itemid" notNull="true" order="1" status="U"/>
+    <Column fglLength="4" fglType="258" name="qty" notNull="true" order="2" status="U"/>
+    <Index indexColumns="itemid" indexConstraint="primaryKey" name="sqlite_autoindex_inventory_1" status="U"/>
+  </Table>
+  <Table name="item" isView="false" status="U">
+    <Column fglLength="10" fglType="256" name="itemid" notNull="true" order="1" status="U"/>
+    <Column fglLength="10" fglType="256" name="productid" notNull="true" order="2" status="U"/>
+    <Column fglLength="2562" fglType="5" name="listprice" notNull="false" order="3" status="U"/>
+    <Column fglLength="2562" fglType="5" name="unitcost" notNull="false" order="4" status="U"/>
+    <Column fglLength="4" fglType="2" name="supplier" notNull="false" order="5" status="U"/>
+    <Column fglLength="2" fglType="0" name="itstatus" notNull="false" order="6" status="U"/>
+    <Column fglLength="80" fglType="0" name="attr1" notNull="false" order="7" status="U"/>
+    <Column fglLength="80" fglType="0" name="attr2" notNull="false" order="8" status="U"/>
+    <Column fglLength="80" fglType="0" name="attr3" notNull="false" order="9" status="U"/>
+    <Column fglLength="80" fglType="0" name="attr4" notNull="false" order="10" status="U"/>
+    <Column fglLength="80" fglType="0" name="attr5" notNull="false" order="11" status="U"/>
+    <Index indexColumns="itemid" indexConstraint="primaryKey" name="sqlite_autoindex_item_1" status="U"/>
+  </Table>
+  <Table name="lineitem" isView="false" status="U">
+    <Column fglLength="4" fglType="258" name="orderid" notNull="true" order="1" status="U"/>
+    <Column fglLength="4" fglType="258" name="linenum" notNull="true" order="2" status="U"/>
+    <Column fglLength="10" fglType="256" name="itemid" notNull="true" order="3" status="U"/>
+    <Column fglLength="4" fglType="258" name="quantity" notNull="true" order="4" status="U"/>
+    <Column fglLength="2562" fglType="261" name="unitprice" notNull="true" order="5" status="U"/>
+    <Index indexColumns="orderid, linenum" indexConstraint="primaryKey" name="sqlite_autoindex_lineitem_1" status="U"/>
+  </Table>
+  <Table name="orders" isView="false" status="U">
+    <Column fglLength="4" fglType="262" name="orderid" notNull="true" order="1" status="U"/>
+    <Column fglLength="80" fglType="256" name="userid" notNull="true" order="2" status="U"/>
+    <Column fglLength="4" fglType="263" name="orderdate" notNull="true" order="3" status="U"/>
+    <Column fglLength="80" fglType="0" name="shipfirstname" notNull="false" order="4" status="U"/>
+    <Column fglLength="80" fglType="0" name="shiplastname" notNull="false" order="5" status="U"/>
+    <Column fglLength="80" fglType="0" name="shipaddr1" notNull="false" order="6" status="U"/>
+    <Column fglLength="80" fglType="0" name="shipaddr2" notNull="false" order="7" status="U"/>
+    <Column fglLength="80" fglType="0" name="shipcity" notNull="false" order="8" status="U"/>
+    <Column fglLength="80" fglType="0" name="shipstate" notNull="false" order="9" status="U"/>
+    <Column fglLength="20" fglType="0" name="shipzip" notNull="false" order="10" status="U"/>
+    <Column fglLength="3" fglType="0" name="shipcountry" notNull="false" order="11" status="U"/>
+    <Column fglLength="80" fglType="0" name="billfirstname" notNull="false" order="12" status="U"/>
+    <Column fglLength="80" fglType="0" name="billlastname" notNull="false" order="13" status="U"/>
+    <Column fglLength="80" fglType="0" name="billaddr1" notNull="false" order="14" status="U"/>
+    <Column fglLength="80" fglType="0" name="billaddr2" notNull="false" order="15" status="U"/>
+    <Column fglLength="80" fglType="0" name="billcity" notNull="false" order="16" status="U"/>
+    <Column fglLength="80" fglType="0" name="billstate" notNull="false" order="17" status="U"/>
+    <Column fglLength="20" fglType="0" name="billzip" notNull="false" order="18" status="U"/>
+    <Column fglLength="3" fglType="0" name="billcountry" notNull="false" order="19" status="U"/>
+    <Column fglLength="2562" fglType="261" name="totalprice" notNull="true" order="20" status="U"/>
+    <Column fglLength="80" fglType="0" name="creditcard" notNull="false" order="21" status="U"/>
+    <Column fglLength="7" fglType="0" name="exprdate" notNull="false" order="22" status="U"/>
+    <Column fglLength="80" fglType="0" name="cardtype" notNull="false" order="23" status="U"/>
+    <Column fglLength="3" fglType="256" name="sourceapp" notNull="true" order="24" status="U"/>
+    <Index indexColumns="orderid" indexConstraint="primaryKey" name="primary_key_orders" status="U"/>
+  </Table>
+  <Table name="orderstatus" isView="false" status="U">
+    <Column fglLength="4" fglType="258" name="orderid" notNull="true" order="1" status="U"/>
+    <Column fglLength="4" fglType="258" name="linenum" notNull="true" order="2" status="U"/>
+    <Column fglLength="4" fglType="263" name="mdate" notNull="true" order="3" status="U"/>
+    <Column fglLength="2" fglType="256" name="orstatus" notNull="true" order="4" status="U"/>
+    <Index indexColumns="orderid, linenum" indexConstraint="primaryKey" name="sqlite_autoindex_orderstatus_1" status="U"/>
+  </Table>
+  <Table name="product" isView="false" status="U">
+    <Column fglLength="10" fglType="256" name="productid" notNull="true" order="1" status="U"/>
+    <Column fglLength="10" fglType="256" name="catid" notNull="true" order="2" status="U"/>
+    <Column fglLength="80" fglType="0" name="prodname" notNull="false" order="3" status="U"/>
+    <Column fglLength="255" fglType="0" name="proddesc" notNull="false" order="4" status="U"/>
+    <Column fglLength="255" fglType="0" name="prodpic" notNull="false" order="5" status="U"/>
+    <Index indexColumns="productid" indexConstraint="primaryKey" name="sqlite_autoindex_product_1" status="U"/>
+  </Table>
+  <Table name="seqreg" isView="false" status="U">
+    <Column fglLength="30" fglType="457" name="sr_name" notNull="true" order="1" status="U"/>
+    <Column fglLength="4" fglType="258" name="sr_last" notNull="true" order="2" status="U"/>
+    <Index indexColumns="sr_name" indexConstraint="primaryKey" name="sqlite_autoindex_seqreg_1" status="U"/>
+  </Table>
+  <Table name="signon" isView="false" status="U">
+    <Column fglLength="80" fglType="256" name="userid" notNull="true" order="1" status="U"/>
+    <Column fglLength="25" fglType="256" name="password" notNull="true" order="2" status="U"/>
+    <Index indexColumns="userid" indexConstraint="primaryKey" name="sqlite_autoindex_signon_1" status="U"/>
+  </Table>
+  <Table name="supplier" isView="false" status="U">
+    <Column fglLength="4" fglType="262" name="suppid" notNull="true" order="1" status="U"/>
+    <Column fglLength="80" fglType="0" name="name" notNull="false" order="2" status="U"/>
+    <Column fglLength="2" fglType="256" name="sustatus" notNull="true" order="3" status="U"/>
+    <Column fglLength="80" fglType="0" name="addr1" notNull="false" order="4" status="U"/>
+    <Column fglLength="80" fglType="0" name="addr2" notNull="false" order="5" status="U"/>
+    <Column fglLength="80" fglType="0" name="city" notNull="false" order="6" status="U"/>
+    <Column fglLength="80" fglType="0" name="state" notNull="false" order="7" status="U"/>
+    <Column fglLength="5" fglType="0" name="zip" notNull="false" order="8" status="U"/>
+    <Column fglLength="80" fglType="0" name="phone" notNull="false" order="9" status="U"/>
+    <Index indexColumns="suppid" indexConstraint="primaryKey" name="primary_key_supplier" status="U"/>
+  </Table>
+  <ForeignKey cascadeDelete="false" fkColumns="favcategory" fkRefColumns="catid" name="fk_account_category_0" refTable="category" status="U" table="account"/>
+  <ForeignKey cascadeDelete="false" fkColumns="country" fkRefColumns="code" name="fk_account_country_1" refTable="country" status="U" table="account"/>
+  <ForeignKey cascadeDelete="false" fkColumns="itemid" fkRefColumns="itemid" name="fk_inventory_item_0" refTable="item" status="U" table="inventory"/>
+  <ForeignKey cascadeDelete="false" fkColumns="productid" fkRefColumns="productid" name="fk_item_product_0" refTable="product" status="U" table="item"/>
+  <ForeignKey cascadeDelete="false" fkColumns="supplier" fkRefColumns="suppid" name="fk_item_supplier_1" refTable="supplier" status="U" table="item"/>
+  <ForeignKey cascadeDelete="true" fkColumns="orderid" fkRefColumns="orderid" name="fk_lineitem_orders_0" refTable="orders" status="U" table="lineitem"/>
+  <ForeignKey cascadeDelete="false" fkColumns="itemid" fkRefColumns="itemid" name="fk_lineitem_item_1" refTable="item" status="U" table="lineitem"/>
+  <ForeignKey cascadeDelete="false" fkColumns="userid" fkRefColumns="userid" name="fk_orders_account_0" refTable="account" status="U" table="orders"/>
+  <ForeignKey cascadeDelete="false" fkColumns="billcountry" fkRefColumns="code" name="fk_orders_country_1" refTable="country" status="U" table="orders"/>
+  <ForeignKey cascadeDelete="false" fkColumns="shipcountry" fkRefColumns="code" name="fk_orders_country_2" refTable="country" status="U" table="orders"/>
+  <ForeignKey cascadeDelete="false" fkColumns="orderid" fkRefColumns="orderid" name="fk_orderstatus_orders_0" refTable="orders" status="U" table="orderstatus"/>
+  <ForeignKey cascadeDelete="false" fkColumns="catid" fkRefColumns="catid" name="fk_product_category_0" refTable="category" status="U" table="product"/>
+  <ForeignKey cascadeDelete="true" fkColumns="userid" fkRefColumns="userid" name="fk_signon_account_0" refTable="account" status="U" table="signon"/>
+</Schema>
