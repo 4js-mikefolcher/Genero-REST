@@ -210,7 +210,7 @@ PUBLIC FUNCTION updateTableRecord(tableName STRING ATTRIBUTES(WSParam),
   ATTRIBUTES(WSPut,
              WSPath="/table/{tableName}",
              WSMedia="application/json",
-             WSDescription='Create a new record',
+             WSDescription='Update a record',
              WSThrows="404:Not Found")
  RETURNS STRING
 
@@ -227,6 +227,33 @@ PUBLIC FUNCTION updateTableRecord(tableName STRING ATTRIBUTES(WSParam),
     END IF
 
     LET lStatusCode = sqlHelper.updateFromJSON(tableName, colName, colValue, jsonObj)
+    IF lStatusCode > 0 THEN
+        CALL com.WebServiceEngine.SetRestError(lStatusCode, NULL)
+        RETURN SFMT("Error %1", lStatusCode)
+    END IF
+
+ RETURN "Success 200"
+
+END FUNCTION
+
+PUBLIC FUNCTION deleteTableRecord(tableName STRING ATTRIBUTES(WSParam),
+                                  colName STRING ATTRIBUTES(WSQuery, WSName = "column"),
+                                  colValue STRING ATTRIBUTES(WSQuery, WSName = "value"))
+  ATTRIBUTES(WSDelete,
+             WSPath="/table/{tableName}",
+             WSMedia="application/json",
+             WSDescription='Delete a record',
+             WSThrows="404:Not Found")
+ RETURNS STRING
+
+    DEFINE lStatusCode      INTEGER = 0
+
+    IF tableName.getLength() == 0 OR colName.getLength() == 0 OR colValue.getLength() == 0 THEN
+        CALL com.WebServiceEngine.SetRestError(404, NULL)
+        RETURN "Error 404"
+    END IF
+
+    LET lStatusCode = sqlHelper.deleteRecordWithColumnValue(tableName, colName, colValue)
     IF lStatusCode > 0 THEN
         CALL com.WebServiceEngine.SetRestError(lStatusCode, NULL)
         RETURN SFMT("Error %1", lStatusCode)

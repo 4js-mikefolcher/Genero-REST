@@ -245,6 +245,30 @@ PUBLIC FUNCTION updateFromJSON(tableName STRING,
 
 END FUNCTION
 
+PUBLIC FUNCTION deleteRecordWithColumnValue(tableName STRING, colName STRING, colValue STRING)
+ RETURNS INTEGER
+
+    DEFINE lErrorStatus INTEGER = 0
+    DEFINE lDeleteSQL   STRING = "DELETE FROM %1 WHERE %2 = ?"
+    DEFINE sqlObj       base.SqlHandle
+
+    LET lDeleteSQL = SFMT(lDeleteSQL, tableName, colName)
+    LET sqlObj = base.SqlHandle.create()
+    TRY
+        BEGIN WORK
+        CALL sqlObj.prepare(lDeleteSQL)
+        CALL sqlObj.setParameter(1, colValue)
+        CALL sqlObj.execute()
+        CALL sqlObj.close()
+        COMMIT WORK
+    CATCH
+        LET lErrorStatus = 500
+    END TRY
+
+    RETURN lErrorStatus
+
+END FUNCTION
+
 PRIVATE FUNCTION errorHandler()
     CALL ERRORLOG(SFMT("Error Code: %1", STATUS))
     CALL ERRORLOG(base.Application.getStackTrace())
