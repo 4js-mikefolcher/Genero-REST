@@ -81,7 +81,7 @@
       <File filePath="Library/serviceHelper.4gl"/>
       <File filePath="Library/sqlHelper.4gl"/>
     </Library>
-    <Application binaryName="officestoreService" dependencies="14000,1986" id="18736" label="officestoreService">
+    <Application binaryName="officestoreService" dependencies="14000,1986" environment="value:FGLSQLDEBUG=9" id="18736" label="officestoreService">
       <File filePath="Source/officestoreService.4gl"/>
     </Application>
   </Group>

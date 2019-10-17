@@ -135,3 +135,40 @@ PUBLIC FUNCTION getRecordsWithLimitOffset(tableName STRING ATTRIBUTES(WSParam),
     RETURN jsonArray
 
 END FUNCTION
+
+PUBLIC FUNCTION getRecordsQuery(tableName STRING ATTRIBUTES(WSParam),
+                                colName STRING ATTRIBUTES(WSQuery, WSOptional, WSName = "column"),
+                                colValue STRING ATTRIBUTES(WSQuery, WSOptional, WSName = "value"),
+                                contains STRING ATTRIBUTES(WSQuery, WSOptional, WSName = "contains"))
+    ATTRIBUTES(WSGet,
+               WSPath = "/table/{tableName}/query",
+               WSDescription = 'Fetches all the data from the specified table',
+               WSThrows = "404:Not Found")
+    RETURNS util.JSONArray ATTRIBUTES(WSMedia = "application/json")
+
+    DEFINE jsonArray  util.JSONArray
+
+    IF colName IS NULL OR colName.getLength() == 0 THEN
+        LET jsonArray = sqlHelper.getTableRecords(tableName, -1, -1)
+    ELSE
+        IF contains.getLength() > 0 THEN
+            LET contains = "%", contains.trim(),"%"
+            LET jsonArray = sqlHelper.getTableQuery(tableName, colName.trim(), contains, TRUE)
+        ELSE 
+            IF colValue.getLength() > 0 THEN
+                 LET jsonArray = sqlHelper.getTableQuery(tableName, colName.trim(), colValue.trim(), FALSE)
+            END IF
+        END IF
+    END IF
+
+    IF jsonArray IS NULL THEN
+        CALL com.WebServiceEngine.SetRestError(500, NULL)
+    ELSE 
+        IF jsonArray.getLength() == 0 THEN
+            CALL com.WebServiceEngine.SetRestError(404, NULL)
+        END IF
+    END IF
+
+    RETURN jsonArray
+
+END FUNCTION
