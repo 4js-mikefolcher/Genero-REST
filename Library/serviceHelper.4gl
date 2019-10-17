@@ -202,3 +202,36 @@ PUBLIC FUNCTION insertTableRecord(tableName STRING ATTRIBUTES(WSParam), jsonObj 
     RETURN "Success 200"
 
 END FUNCTION
+
+PUBLIC FUNCTION updateTableRecord(tableName STRING ATTRIBUTES(WSParam),
+                                  colName STRING ATTRIBUTES(WSQuery, WSName = "column"),
+                                  colValue STRING ATTRIBUTES(WSQuery, WSName = "value"),
+                                  jsonObj util.JSONObject)
+  ATTRIBUTES(WSPut,
+             WSPath="/table/{tableName}",
+             WSMedia="application/json",
+             WSDescription='Create a new record',
+             WSThrows="404:Not Found")
+ RETURNS STRING
+
+    DEFINE lStatusCode      INTEGER = 0
+
+    IF jsonObj IS NULL OR jsonObj.toString().getLength() == 0 THEN
+        CALL com.WebServiceEngine.SetRestError(404, NULL)
+        RETURN "Error 404"
+    END IF
+
+    IF tableName.getLength() == 0 OR colName.getLength() == 0 OR colValue.getLength() == 0 THEN
+        CALL com.WebServiceEngine.SetRestError(404, NULL)
+        RETURN "Error 404"
+    END IF
+
+    LET lStatusCode = sqlHelper.updateFromJSON(tableName, colName, colValue, jsonObj)
+    IF lStatusCode > 0 THEN
+        CALL com.WebServiceEngine.SetRestError(lStatusCode, NULL)
+        RETURN SFMT("Error %1", lStatusCode)
+    END IF
+
+ RETURN "Success 200"
+
+END FUNCTION
