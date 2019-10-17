@@ -150,6 +150,49 @@ PUBLIC FUNCTION getTableRecordCount(tableName STRING) RETURNS INTEGER
 
 END FUNCTION
 
+PUBLIC FUNCTION insertFromJSON(tableName STRING, jsonObj util.JSONObject) RETURNS INTEGER
+    DEFINE lErrorStatus INTEGER = 0
+    DEFINE lInsertSQL   STRING = "INSERT INTO %1 (%2) VALUES(%3)"
+    DEFINE lColList     STRING
+    DEFINE lValueList   STRING
+    DEFINE lIndex       INTEGER = 0
+    DEFINE sqlObj       base.SqlHandle
+    DEFINE aColNames    DYNAMIC ARRAY OF STRING
+
+    CALL aColNames.clear()
+    FOR lIndex = 1 TO jsonObj.getLength()
+        IF lIndex == 1 THEN
+            LET lColList = jsonObj.name(lIndex)
+            LET lValueList = "?"
+        ELSE
+            LET lColList = SFMT("%1,%2", lColList, jsonObj.name(lIndex))
+            LET lValueList = SFMT("%1,?",lValueList)
+        END IF
+        CALL aColNames.appendElement()
+        LET aColNames[lIndex] = jsonObj.name(lIndex)
+    END FOR
+
+    LET lInsertSQL = SFMT(lInsertSQL, tableName, lColList, lValueList)
+    LET sqlObj = base.SqlHandle.create()
+    DISPLAY SFMT("SQL: %1", lInsertSQL)
+    TRY
+        BEGIN WORK
+        CALL sqlObj.prepare(lInsertSQL)
+        CALL sqlObj.open()
+        FOR lIndex = 1 TO aColNames.getLength()
+            CALL sqlObj.setParameter(lIndex, jsonObj.get(aColNames[lIndex]))
+        END FOR
+        CALL sqlObj.put()
+        CALL sqlObj.close()
+        COMMIT WORK
+    CATCH
+        LET lErrorStatus = 500
+    END TRY
+
+    RETURN lErrorStatus
+
+END FUNCTION
+
 PRIVATE FUNCTION errorHandler()
     CALL ERRORLOG(SFMT("Error Code: %1", STATUS))
     CALL ERRORLOG(base.Application.getStackTrace())

@@ -172,3 +172,33 @@ PUBLIC FUNCTION getRecordsQuery(tableName STRING ATTRIBUTES(WSParam),
     RETURN jsonArray
 
 END FUNCTION
+
+PUBLIC FUNCTION insertTableRecord(tableName STRING ATTRIBUTES(WSParam), jsonObj util.JSONObject)
+  ATTRIBUTES(WSPost,
+             WSPath="/table/{tableName}",
+             WSMedia="application/json",
+             WSDescription='Create a new record',
+             WSThrows="404:Not Found")
+  RETURNS STRING
+
+    DEFINE lStatusCode      INTEGER
+
+    IF jsonObj IS NULL OR jsonObj.toString().getLength() == 0 THEN
+        CALL com.WebServiceEngine.SetRestError(404, NULL)
+        RETURN "Error 404"
+    END IF
+
+    IF tableName.getLength() == 0 THEN
+        CALL com.WebServiceEngine.SetRestError(404, NULL)
+        RETURN "Error 404"
+    END IF
+
+    LET lStatusCode = sqlHelper.insertFromJSON(tableName, jsonObj)
+    IF lStatusCode > 0 THEN
+        CALL com.WebServiceEngine.SetRestError(lStatusCode, NULL)
+        RETURN SFMT("Error %1", lStatusCode)
+    END IF
+    
+    RETURN "Success 200"
+
+END FUNCTION
