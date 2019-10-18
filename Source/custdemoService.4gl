@@ -1,3 +1,8 @@
+##############################################################################################
+# custdemoService.4gl provides web service interface for all the tables in the 
+#  custdemo database
+##############################################################################################
+
 IMPORT com
 IMPORT FGL serviceHelper
 

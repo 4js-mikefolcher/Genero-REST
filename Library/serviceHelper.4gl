@@ -1,7 +1,16 @@
+##############################################################################################
+# serverHelper.4gl provides functions to define URI endpoints for GET, POST, PUT, and DELETE
+# without relying on the database schema.
+##############################################################################################
 IMPORT com
 IMPORT util
 IMPORT FGL sqlHelper
 
+##############################################################################################
+#+
+#+ startService Starts the web service process and returns a string when it is stopped
+#+
+##############################################################################################
 PUBLIC FUNCTION startService() RETURNS STRING
     DEFINE serviceStatus    INTEGER
     
@@ -41,6 +50,11 @@ PUBLIC FUNCTION startService() RETURNS STRING
 
 END FUNCTION
 
+##############################################################################################
+#+
+#+ getAllRecords Gets and returns all the records in a table
+#+
+##############################################################################################
 PUBLIC FUNCTION getAllRecords(tableName STRING ATTRIBUTES(WSParam))
     ATTRIBUTES(WSGet,
                WSPath = "/table/{tableName}",
@@ -64,6 +78,11 @@ PUBLIC FUNCTION getAllRecords(tableName STRING ATTRIBUTES(WSParam))
 
 END FUNCTION
 
+##############################################################################################
+#+
+#+ getRecordCount Gets and returns all number of records in a table
+#+
+##############################################################################################
 PUBLIC FUNCTION getRecordCount(tableName STRING ATTRIBUTES(WSParam))
     ATTRIBUTES(WSGet,
                WSPath = "/table/{tableName}/count",
@@ -87,6 +106,11 @@ PUBLIC FUNCTION getRecordCount(tableName STRING ATTRIBUTES(WSParam))
 
 END FUNCTION
 
+##############################################################################################
+#+
+#+ getRecordsWithLimit Gets and returns all the records in a table up to the specified limit
+#+
+##############################################################################################
 PUBLIC FUNCTION getRecordsWithLimit(tableName STRING ATTRIBUTES(WSParam), 
                                     recLimit INTEGER ATTRIBUTES(WSParam))
     ATTRIBUTES(WSGet,
@@ -111,6 +135,14 @@ PUBLIC FUNCTION getRecordsWithLimit(tableName STRING ATTRIBUTES(WSParam),
 
 END FUNCTION
 
+##############################################################################################
+#+
+#+ getRecordsWithLimitOffset Gets and returns all the records in a table starting at the 
+#+ specified offset and until the specified limit
+#+
+#+ This method allows the client to implement paging within the application
+#+
+##############################################################################################
 PUBLIC FUNCTION getRecordsWithLimitOffset(tableName STRING ATTRIBUTES(WSParam), 
                                           recLimit INTEGER ATTRIBUTES(WSParam),
                                           recOffset INTEGER ATTRIBUTES(WSParam))
@@ -136,6 +168,14 @@ PUBLIC FUNCTION getRecordsWithLimitOffset(tableName STRING ATTRIBUTES(WSParam),
 
 END FUNCTION
 
+##############################################################################################
+#+
+#+ getRecordsQuery Gets and returns all the records in a table that match the query criteria. 
+#+ colName is the name of the column to query
+#+ colValue is the column value (for equality)
+#+ contains is the column value (for contains)
+#+
+##############################################################################################
 PUBLIC FUNCTION getRecordsQuery(tableName STRING ATTRIBUTES(WSParam),
                                 colName STRING ATTRIBUTES(WSQuery, WSOptional, WSName = "column"),
                                 colValue STRING ATTRIBUTES(WSQuery, WSOptional, WSName = "value"),
@@ -173,6 +213,11 @@ PUBLIC FUNCTION getRecordsQuery(tableName STRING ATTRIBUTES(WSParam),
 
 END FUNCTION
 
+##############################################################################################
+#+
+#+ insertTableRecord Inserts the payload into the specified table
+#+
+##############################################################################################
 PUBLIC FUNCTION insertTableRecord(tableName STRING ATTRIBUTES(WSParam), jsonObj util.JSONObject)
   ATTRIBUTES(WSPost,
              WSPath="/table/{tableName}",
@@ -203,6 +248,12 @@ PUBLIC FUNCTION insertTableRecord(tableName STRING ATTRIBUTES(WSParam), jsonObj 
 
 END FUNCTION
 
+##############################################################################################
+#+
+#+ updateTableRecord Updates the payload into the specified table, using the querystring
+#+ arguments as the where criteria in the update
+#+
+##############################################################################################
 PUBLIC FUNCTION updateTableRecord(tableName STRING ATTRIBUTES(WSParam),
                                   colName STRING ATTRIBUTES(WSQuery, WSName = "column"),
                                   colValue STRING ATTRIBUTES(WSQuery, WSName = "value"),
@@ -236,6 +287,12 @@ PUBLIC FUNCTION updateTableRecord(tableName STRING ATTRIBUTES(WSParam),
 
 END FUNCTION
 
+##############################################################################################
+#+
+#+ deleteTableRecord Deletes the record(s) in the specified table, using the querystring
+#+ arguments as the where criteria in the delete
+#+
+##############################################################################################
 PUBLIC FUNCTION deleteTableRecord(tableName STRING ATTRIBUTES(WSParam),
                                   colName STRING ATTRIBUTES(WSQuery, WSName = "column"),
                                   colValue STRING ATTRIBUTES(WSQuery, WSName = "value"))

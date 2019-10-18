@@ -1,3 +1,7 @@
+##############################################################################################
+# officestoreService.4gl provides web service interface for all the tables in the 
+#  officestore database
+##############################################################################################
 IMPORT com
 IMPORT FGL serviceHelper
 
