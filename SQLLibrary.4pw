@@ -64,22 +64,9 @@
   </Settings>
   <LanguageList version="1.0"/>
   <PlatformList version="1.0"/>
-  <Group environment="value:FGLAPPSERVER=8889,value:FGLPROFILE=../Config/fglprofile" id="75644415" label="Sevices" language="Genero">
-    <Library binaryName="Config" id="404648568" label="Config">
-      <File filePath="Config/fglprofile"/>
-    </Library>
-    <Application binaryName="custdemoService" dependencies="14000,-971047309_14000" id="-1588586594" label="custdemoService">
-      <File filePath="Source/custdemoService.4gl"/>
-    </Application>
-    <Library binaryName="Databases" id="1986" label="Databases">
-      <File filePath="Database/custdemo.4db"/>
-      <File filePath="Database/custdemo.db"/>
-      <File filePath="Database/officestore.4db"/>
-      <File filePath="Database/officestore.db"/>
-    </Library>
-    <Application binaryName="officestoreService" dependencies="14000,1986,-971047309_14000" environment="value:FGLSQLDEBUG=9" id="18736" label="officestoreService">
-      <File filePath="Source/officestoreService.4gl"/>
-    </Application>
-    <ExtProject filePath="../SQLLibrary/SQLLibrary.4pw" id="-971047309"/>
+  <Group id="75644415" label="Group" language="Genero">
+    <Application binaryName="Application" dependencies="14000,1986" id="18736" label="Application"/>
+    <Library binaryName="Databases" id="1986" label="Databases"/>
+    <Library binaryName="Library" dependencies="1986" id="14000" label="Library"/>
   </Group>
 </Project>

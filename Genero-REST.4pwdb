@@ -1,46 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <WorkspaceDatabase fileContentsEncoding="UTF-8" version="3.0">
-<File n="Source/custdemoService.4gl" s="2" ts="20191015164516282">
-<Fct c="1" el="15" l="4" n="main()" t="F" v="pub">
-<Call c="32" i="serviceHelper" l="12" n="startService" t="F"/>
-</Fct>
-</File>
-<File n="Library/serviceHelper.4gl" s="2" ts="20191017144525700">
-<Dep t="Library/sqlHelper.4gl"/>
-<Fct c="17" el="167" l="139" n="getRecordsQuery(tableName STRING,colName STRING,colValue STRING)" t="F" v="pub">
-<Call c="35" i="sqlHelper" l="152" n="getTableRecords" t="F"/>
-<Call c="35" i="sqlHelper" l="154" n="getTableQuery" t="F"/>
-</Fct>
-<Fct c="17" el="137" l="114" n="getRecordsWithLimitOffset(tableName STRING,recLimit INTEGER,recOffset INTEGER)" t="F" v="pub">
-<Call c="31" i="sqlHelper" l="125" n="getTableRecords" t="F"/>
-</Fct>
-<Fct c="17" el="112" l="90" n="getRecordsWithLimit(tableName STRING,recLimit INTEGER)" t="F" v="pub">
-<Call c="31" i="sqlHelper" l="100" n="getTableRecords" t="F"/>
-</Fct>
-<Fct c="17" el="88" l="67" n="getRecordCount(tableName STRING)" t="F" v="pub">
-<Call c="28" i="sqlHelper" l="76" n="getTableRecordCount" t="F"/>
-</Fct>
-<Fct c="17" el="65" l="44" n="getAllRecords(tableName STRING)" t="F" v="pub">
-<Call c="31" i="sqlHelper" l="53" n="getTableRecords" t="F"/>
-</Fct>
-<Fct c="17" el="42" l="5" n="startService()" t="F" v="pub"/>
-</File>
-<File n="Library/sqlHelper.4gl" s="2" ts="20191017144220550">
-<Fct c="18" el="153" l="149" n="errorHandler()" t="F" v="prv"/>
-<Fct c="17" el="147" l="116" n="getTableRecordCount(tableName STRING)" t="F" v="pub">
-<Call c="29" l="124" n="errorHandler" t="F"/>
-</Fct>
-<Fct c="17" el="114" l="68" n="getTableQuery(tableName STRING,colName STRING,colValue STRING)" t="F" v="pub">
-<Call c="29" l="79" n="errorHandler" t="F"/>
-</Fct>
-<Fct c="17" el="66" l="6" n="getTableRecords(tableName STRING,recLimit INTEGER,recOffset INTEGER)" t="F" v="pub">
-<Call c="29" l="18" n="errorHandler" t="F"/>
-</Fct>
-</File>
-<File n="Source/officestoreService.4gl" s="2" ts="20191015164516261">
+<File n="Source/custdemoService.4gl" s="2" ts="20191017204435091">
 <Dep t="Library/serviceHelper.4gl"/>
-<Fct c="1" el="15" l="4" n="main()" t="F" v="pub">
-<Call c="32" i="serviceHelper" l="12" n="startService" t="F"/>
+<Fct c="1" el="20" l="9" n="main()" t="F" v="pub">
+<Call c="32" i="serviceHelper" l="17" n="startService" t="F"/>
+</Fct>
+</File>
+<File n="Source/officestoreService.4gl" s="2" ts="20191017204435069">
+<Dep t="Library/serviceHelper.4gl"/>
+<Fct c="1" el="19" l="8" n="main()" t="F" v="pub">
+<Call c="32" i="serviceHelper" l="16" n="startService" t="F"/>
+</Fct>
+</File>
+<File n="../SQLLibrary/Library/serviceHelper.4gl" s="2" ts="20191212173710184">
+<Dep t="../SQLLibrary/Library/sqlHelper.4gl"/>
+<Fct c="17" el="321" l="296" n="deleteTableRecord(tableName STRING,colName STRING,colValue STRING)" t="F" v="pub">
+<Call c="33" i="sqlHelper" l="313" n="deleteRecordWithColumnValue" t="F"/>
+</Fct>
+<Fct c="17" el="288" l="257" n="updateTableRecord(tableName STRING,colName STRING,colValue STRING,jsonObj util.JSONObject)" t="F" v="pub">
+<Call c="33" i="sqlHelper" l="280" n="updateFromJSON" t="F"/>
+</Fct>
+<Fct c="17" el="249" l="221" n="insertTableRecord(tableName STRING,jsonObj util.JSONObject)" t="F" v="pub">
+<Call c="33" i="sqlHelper" l="241" n="insertFromJSON" t="F"/>
+</Fct>
+<Fct c="17" el="214" l="179" n="getRecordsQuery(tableName STRING,colName STRING,colValue STRING,contains STRING)" t="F" v="pub">
+<Call c="35" i="sqlHelper" l="192" n="getTableRecords" t="F"/>
+<Call c="39" i="sqlHelper" l="196" n="getTableQuery" t="F"/>
+<Call c="44" i="sqlHelper" l="199" n="getTableQuery" t="F"/>
+</Fct>
+<Fct c="17" el="169" l="146" n="getRecordsWithLimitOffset(tableName STRING,recLimit INTEGER,recOffset INTEGER)" t="F" v="pub">
+<Call c="31" i="sqlHelper" l="157" n="getTableRecords" t="F"/>
+</Fct>
+<Fct c="17" el="136" l="114" n="getRecordsWithLimit(tableName STRING,recLimit INTEGER)" t="F" v="pub">
+<Call c="31" i="sqlHelper" l="124" n="getTableRecords" t="F"/>
+</Fct>
+<Fct c="17" el="107" l="86" n="getRecordCount(tableName STRING)" t="F" v="pub">
+<Call c="28" i="sqlHelper" l="95" n="getTableRecordCount" t="F"/>
+</Fct>
+<Fct c="17" el="79" l="58" n="getAllRecords(tableName STRING)" t="F" v="pub">
+<Call c="31" i="sqlHelper" l="67" n="getTableRecords" t="F"/>
+</Fct>
+<Fct c="17" el="51" l="14" n="startService()" t="F" v="pub"/>
+</File>
+<File n="../SQLLibrary/Library/sqlHelper.4gl" s="2" ts="20191212173710194">
+<Fct c="18" el="348" l="344" n="errorHandler()" t="F" v="prv"/>
+<Fct c="17" el="342" l="316" n="deleteRecordWithColumnValue(tableName STRING,colName STRING,colValue STRING)" t="F" v="pub">
+<Call c="29" l="323" n="errorHandler" t="F"/>
+</Fct>
+<Fct c="17" el="307" l="251" n="updateFromJSON(tableName STRING,colName STRING,colValue STRING,jsonObj util.JSONObject)" t="F" v="pub">
+<Call c="29" l="265" n="errorHandler" t="F"/>
+</Fct>
+<Fct c="17" el="242" l="196" n="insertFromJSON(tableName STRING,jsonObj util.JSONObject)" t="F" v="pub">
+<Call c="29" l="205" n="errorHandler" t="F"/>
+</Fct>
+<Fct c="17" el="189" l="155" n="getTableRecordCount(tableName STRING)" t="F" v="pub">
+<Call c="29" l="163" n="errorHandler" t="F"/>
+</Fct>
+<Fct c="17" el="148" l="92" n="getTableQuery(tableName STRING,colName STRING,colValue STRING,useLike BOOLEAN)" t="F" v="pub">
+<Call c="29" l="103" n="errorHandler" t="F"/>
+</Fct>
+<Fct c="17" el="82" l="15" n="getTableRecords(tableName STRING,recLimit INTEGER,recOffset INTEGER)" t="F" v="pub">
+<Call c="29" l="27" n="errorHandler" t="F"/>
 </Fct>
 </File>
 </WorkspaceDatabase>
