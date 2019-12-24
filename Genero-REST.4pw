@@ -68,7 +68,7 @@
     <Library binaryName="Config" id="404648568" label="Config">
       <File filePath="Config/fglprofile"/>
     </Library>
-    <Application binaryName="custdemoService" dependencies="14000,-971047309_14000" id="-1588586594" label="custdemoService">
+    <Application binaryName="custdemoService" dependencies="14000,-971047309_14000,163389988_14000" id="-1588586594" label="custdemoService">
       <File filePath="Source/custdemoService.4gl"/>
     </Application>
     <Library binaryName="Databases" id="1986" label="Databases">
@@ -77,9 +77,9 @@
       <File filePath="Database/officestore.4db"/>
       <File filePath="Database/officestore.db"/>
     </Library>
-    <Application binaryName="officestoreService" dependencies="14000,1986,-971047309_14000" environment="value:FGLSQLDEBUG=9" id="18736" label="officestoreService">
+    <Application binaryName="officestoreService" dependencies="14000,1986,-971047309_14000,163389988_14000" environment="value:FGLSQLDEBUG=9" id="18736" label="officestoreService">
       <File filePath="Source/officestoreService.4gl"/>
     </Application>
-    <ExtProject filePath="../SQLLibrary/SQLLibrary.4pw" id="-971047309"/>
+    <ExtProject filePath="../RESTLibrary/RESTLibrary.4pw" id="163389988"/>
   </Group>
 </Project>
