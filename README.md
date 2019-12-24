@@ -1,55 +1,53 @@
 # Genero-REST
-Example of RESTful services in Genero
+Example of RESTful services in Genero for the officestore and custdemo 
+databases.
 
-Implements Generic GET, POST, PUT, and DELETE requests for all the tables
-in the database.
-
-The Library consists of files to allow for generic select, insert, 
-update, and delete statements.
+Leverages the RESTLibrary project, for more details see:
+https://github.com/4js-mikefolcher/RESTLibrary
 
 ------------------------------------------------
-serviceHelper.4gl: Defines the web service URI's
+officeStoreService.4gl: Operations for the officestore database
 ------------------------------------------------
-Get All Records: /table/{tableName}
+Get All Records: /officestore/table/{tableName}
 
-Get Record Count: /table/{tableName}/count
+Get Record Count: /officestore/table/{tableName}/count
 
-Get First x Records: /table/{tableName}/limit/{recLimit}
+Get First x Records: /officestore/table/{tableName}/limit/{recLimit}
 
-Get First x Records with y Offset: /table/{tableName}/limit/{recLimit}/offset/{recOffset}
+Get First x Records with y Offset: /officestore/table/{tableName}/limit/{recLimit}/offset/{recOffset}
 
-Get Records with Query Equal: /table/{tableName}/query?column={colName}&value={colValue}
+Get Records with Query Equal: /officestore/table/{tableName}/query?column={colName}&value={colValue}
 
-Get Records with Query Contains: /table/{tableName}/query?column={colName}&contains={colValue}
+Get Records with Query Contains: /officestore/table/{tableName}/query?column={colName}&contains={colValue}
 
-Post Record: /table/{tableName}
+Post Record: /officestore/table/{tableName}
 	Body: { "colName": "colValue", .... }
 	
-Put Record: /table/{tableName}?column={colName}&value={colValue}
+Put Record: /officestore/table/{tableName}?column={colName}&value={colValue}
 	Body: { "colName": "colValue", .... }
 	
-Delete Record: /table/{tableName}?column={colName}&value={colValue}
+Delete Record: /officestore/table/{tableName}?column={colName}&value={colValue}
 
----------------------------------------------
-sqlHelper.4gl: Defines the database interface
----------------------------------------------
-PUBLIC FUNCTION getTableRecords(tableName STRING, recLimit INTEGER, recOffset INTEGER) 
- RETURNS util.JSONArray
- 
-PUBLIC FUNCTION getTableQuery(tableName STRING, colName STRING, colValue STRING, useLike BOOLEAN)
- RETURNS util.JSONArray
- 
-PUBLIC FUNCTION getTableRecordCount(tableName STRING) RETURNS INTEGER
+------------------------------------------------
+custdemoService.4gl: Operations for the custdemo database
+------------------------------------------------
+Get All Records: /custdemo/table/{tableName}
 
-PUBLIC FUNCTION insertFromJSON(tableName STRING, jsonObj util.JSONObject) RETURNS INTEGER
+Get Record Count: /custdemo/table/{tableName}/count
 
-PUBLIC FUNCTION updateFromJSON(tableName STRING,
-                               colName STRING,
-                               colValue STRING,
-                               jsonObj util.JSONObject) 
- RETURNS INTEGER
- 
-PUBLIC FUNCTION deleteRecordWithColumnValue(tableName STRING, colName STRING, colValue STRING)
- RETURNS INTEGER
- 
+Get First x Records: /custdemo/table/{tableName}/limit/{recLimit}
+
+Get First x Records with y Offset: /custdemo/table/{tableName}/limit/{recLimit}/offset/{recOffset}
+
+Get Records with Query Equal: /custdemo/table/{tableName}/query?column={colName}&value={colValue}
+
+Get Records with Query Contains: /custdemo/table/{tableName}/query?column={colName}&contains={colValue}
+
+Post Record: /custdemo/table/{tableName}
+	Body: { "colName": "colValue", .... }
+	
+Put Record: /custdemo/table/{tableName}?column={colName}&value={colValue}
+	Body: { "colName": "colValue", .... }
+	
+Delete Record: /custdemo/table/{tableName}?column={colName}&value={colValue}
 
