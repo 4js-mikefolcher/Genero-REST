@@ -4,10 +4,14 @@
 ##############################################################################################
 IMPORT com
 IMPORT FGL serviceHelper
+IMPORT FGL officestoreCreate
 
 MAIN
   DEFINE lMessage STRING
-  CONNECT TO "officestore"
+
+  CONNECT TO ":memory:+driver='dbmsqt'"
+  CALL officestoreCreate.create_officestore_database()
+
   CALL com.WebServiceEngine.RegisterRestService("serviceHelper","officestore")
 
   CALL STARTLOG("officestoreService.log")

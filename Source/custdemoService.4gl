@@ -5,10 +5,13 @@
 
 IMPORT com
 IMPORT FGL serviceHelper
+IMPORT FGL custdemoCreate
 
 MAIN
   DEFINE lMessage STRING
-  CONNECT TO "custdemo"
+  CONNECT TO ":memory:+driver='dbmsqt'"
+  CALL custdemoCreate.create_custdemo_database()
+
   CALL com.WebServiceEngine.RegisterRestService("serviceHelper","custdemo")
 
   CALL STARTLOG("custdemoService.log")
